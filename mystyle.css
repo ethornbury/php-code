@@ -1,0 +1,25 @@
+/*
+font-family: 'Fredericka the Great', cursive;
+font-family: 'Montserrat', sans-serif;
+*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: rgb(0, 0, 0);
+    background-color: white;
+   
+}
+h1, h2, h3, h4, h5, h6{
+	font-family: 'Fredericka the Great', cursive;
+}
+
+
+.rating {
+    color:#ffd11a;
+    margin-left: 5px;
+}
+
