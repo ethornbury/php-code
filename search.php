@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Pizza & Pasta</title>
+		<title>Read functionality</title>
 		<meta charset="utf-8">
 		  <meta name="viewport" content="width=device-width, initial-scale=1">
 		  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
                     <a class="nav-link" href="booking.html">Book</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="online.html">Online</a>
+                    <a class="nav-link" href="update-booking.php">Update booking</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="search.html">Search</a>
