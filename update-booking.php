@@ -1,5 +1,5 @@
 <?php
-    require_once 'connect.php'; //file with db connect function
+    require_once 'inc/connect.php'; //file with db connect function
     connect_to_db(); //call the function
 
     echo '

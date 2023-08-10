@@ -85,7 +85,7 @@
 <!-- php sitting here to pick up the column div -->
 <?php
 
-    require_once 'connect.php';
+    require_once 'inc/connect.php';
     connect_to_db();
 
    //echo "Connected successfully"; //testing line
