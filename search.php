@@ -84,31 +84,22 @@
                 </form>
 <!-- php sitting here to pick up the column div -->
 <?php
-//set up
-$servername = "localhost"; //server name
-$username = "root"; //MySQL username
-$password = ""; //MySQL password
-$dbname = "booking_db"; //your database name
 
-// Create a new MySQLi instance under your var name $mycon
-$mycon = new mysqli($servername, $username, $password, $dbname);
+    require_once 'connect.php';
+    connect_to_db();
 
-// Check connection
-if ($mycon -> connect_error) {
-    die("Connection failed: " . $mycon -> connect_error);
-} else {
    //echo "Connected successfully"; //testing line
 
     if (isset($_POST['book_day'], $_POST["book_time"], $_POST['book_name'])) {
         //getting content from html form -> save to php var -> pass to mysql query 
-        //var_dump($_POST["book_day"], $_POST["book_time"],$_POST["book_name"]); //html fields
+        //var_dump($_POST["book_day"], $_POST["book_time"],$_POST["book_name"]); //test line to check html fields
         $days = htmlspecialchars($_POST["book_day"]);
         $hours = htmlspecialchars($_POST["book_time"]);
         $booking_name = htmlspecialchars($_POST["book_name"]);
- 
-        //$sql = "SELECT book_day, book_time, book_name FROM booking"; //get all
+        //test - get all
+        //$sql = "SELECT book_day, book_time, book_name FROM booking"; 
         //get a specific search
-        $sql = "SELECT * FROM booking WHERE book_day LIKE ( '  ".$days." ')";
+        $sql = "SELECT * FROM booking WHERE book_day LIKE ( '%".$days."%')"; //use wild cards
         $result = $mycon->query($sql);
 
         if ($result -> num_rows > 0) {
@@ -120,8 +111,6 @@ if ($mycon -> connect_error) {
 
             echo '</ul>';
         } else {
-            //echo "0 results";
-
             echo '
                 <br><br>
                 <ul class="list-group">   
@@ -133,8 +122,7 @@ if ($mycon -> connect_error) {
     }
     // Close the connection
     $mycon->close();
-}
- //echo "<p>working</p>"; //testing line to check file is being picked up
+    //echo "<p>working</p>"; //testing line to check file is being picked up
 ?>
 
             </div> <!-- end of middle column with form -->

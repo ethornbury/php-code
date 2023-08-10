@@ -41,7 +41,7 @@
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-8">
-        <h2>UPDATE YOUR BOOKING <i class="fas fa-utensils fa-sm"></i></h2> 
+        <h2>SEARCH TO UPDATE YOUR BOOKING  <i class="fas fa-utensils fa-sm"></i></h2> 
         <br>
         <form action="update-booking.php" method="post">
             <div class="row">
@@ -55,6 +55,7 @@
                     <option value="sun">Sunday</option>
                 </select>
                 </div>
+                
                 <div class="col">
                 <select name="book_time">
                     <option value="hour-select">Select time</option>
@@ -70,6 +71,7 @@
                     
                 </select>
                 </div>
+                
 
             </div>
             <br>
@@ -101,7 +103,7 @@ if ($mycon -> connect_error) {
 } else {
    //echo "Connected successfully"; //testing line
 
-    if (isset($_POST['book_day'], $_POST["book_time"], $_POST['book_name'])) {
+    if (isset( $_POST['book_day'], $_POST['book_time'], $_POST['book_name'])) {
         //getting content from html form -> save to php var -> pass to mysql query 
         //var_dump($_POST["book_day"], $_POST["book_time"],$_POST["book_name"]); //html fields
 				
@@ -109,32 +111,34 @@ if ($mycon -> connect_error) {
         $hours = htmlspecialchars($_POST["book_time"]);
         $booking_name = htmlspecialchars($_POST["book_name"]);
         // var_dump($days, $booking_name);
-        $sql = "SELECT * FROM booking"; //get all
+        //$sql = "SELECT * FROM booking"; //get all
         //get a specific search
-        //$sql = "SELECT * FROM booking WHERE book_day LIKE ( '  ".$days." ') AND ( '  ".$booking_name." ')    ";
+        //$sql = "SELECT * FROM booking WHERE book_day LIKE ( '".$days."') OR book_name LIKE ( '".$booking_name."')    ";
+        $sql = "SELECT * FROM booking WHERE book_day LIKE '$days' OR book_name LIKE '$booking_name' ";
+       
         $result = $mycon->query($sql);
 		
+        $row = $result->fetch_assoc();
 		
-		
-        var_dump($result);
         if ($result -> num_rows > 0) {
+          
             // output data of each row
             echo '<br><br> <ul class="list-group"> ';
-            while($row = $result -> fetch_assoc()) {
-                echo '<li class="list-group-item"> day: '. $row["book_day"]. ' | </i> time: '. $row["book_time"]. ' | name: ' . $row["book_name"] .'</li>';  
-            }  
+              while($row = $result -> fetch_assoc()) {
+                $id = $row["book_id"];
+                $days = $row["book_day"];
+                $hours = $row["book_time"];
+                $booking_name = $row["book_name"];
+                $booking_num = $row["book_num"];
+                  echo '<li class="list-group-item"> day: '. $row["book_day"]. ' | time: '. $row["book_time"]. ' | name: ' . $row["book_name"] .'</li>';  
+              }  
 
             echo '</ul>';
         } else {
-            //echo "0 results";
-
-            echo '
-                <br><br>
+            echo '  <br><br>
                 <ul class="list-group">   
                     <li class="list-group-item">no results to display</li> 
-                </ul>
-            
-            ';
+                </ul>  ';
         }
     }
     // Close the connection
@@ -187,7 +191,7 @@ if ($mycon -> connect_error) {
 
           <div class="mb-3">
             <label class="form-label">Name:</label>
-            <input type="text" class="form-control" id="pwd" placeholder="Enter full name" name="book_name" disabled>
+            <input type="text" class="form-control" id="pwd" placeholder="$booking_name" name="book_name" disabled>
           </div>
           <br>
 
@@ -199,6 +203,54 @@ if ($mycon -> connect_error) {
           <button type="submit" class="btn btn-primary">UPDATE</button>
         </form>
       </div>
+<!-- php sitting here to pick up the column div -->
+<?php
+//set up
+$servername = "localhost"; //server name
+$username = "root"; //MySQL username
+$password = ""; //MySQL password
+$dbname = "booking_db"; //your database name
+
+// Create a new MySQLi instance under your var name $mycon
+$mycon = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($mycon -> connect_error) {
+    die("Connection failed: " . $mycon -> connect_error);
+} else {
+   //echo "Connected successfully"; //testing line
+
+        // var_dump($days, $booking_name);
+
+        //$sql = "SELECT * FROM booking WHERE book_day LIKE '$days' OR book_name LIKE '$booking_name' ";
+        $sql = "UPDATE booking SET book_day='$days', book_time='$days', book_num='$booking_num' where book_id = '$id'";
+        $result = $mycon->query($sql);
+		
+        if ($mycon->query($sql) === TRUE) {
+          
+          echo '  <br><br>
+                <ul class="list-group">   
+                    <li class="list-group-item">Records updated</li> 
+                </ul>  ';
+        } else {
+          echo '  <br><br>
+          <ul class="list-group">   
+              <li class="list-group-item">Error: ".$sql.$mycon->error</li> 
+          </ul>  ';
+          
+        }
+		
+       
+    }
+    // Close the connection
+    $mycon->close();
+ //echo "<p>working</p>"; //testing line to check file is being picked up
+?>
+
+
+
+
+
       <div class="col-md-2"></div>
     </div>
 

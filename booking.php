@@ -1,21 +1,6 @@
 <?php
-//set up
-$servername = "localhost"; //server name
-$username = "root"; //MySQL username
-$password = ""; //MySQL password
-$dbname = "booking_db"; //your database name
-
-// Create a new MySQLi instance under your var name $mycon
-$mycon = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($mycon -> connect_error) {
-    die("Connection failed: " . $mycon -> connect_error);
-} else {
-    //echo "Connected successfully";
-    include ("booking.html");
-     
-}
+require_once 'connect.php';
+connect_to_db();
 
 //save data
 if (isset($_POST['book_day'], $_POST["book_time"], $_POST['book_name'],  $_POST['book_num'])) {
@@ -26,13 +11,15 @@ if (isset($_POST['book_day'], $_POST["book_time"], $_POST['book_name'],  $_POST[
     $booking_name = htmlspecialchars($_POST["book_name"]);
     $booking_pnumber = htmlspecialchars($_POST["book_num"]);
     
-    $query ="INSERT INTO booking (book_day, book_time, book_name, book_num) VALUES ( '  ".$days." ','  ".$hours." ',' ".$booking_name." ',' ".$booking_pnumber."   ' )";	
+    $query ="INSERT INTO booking (book_day, book_time, book_name, book_num) VALUES ( '".$days."','".$hours."','".$booking_name."','".$booking_pnumber."' )";	
     mysqli_query($mycon, $query); 
 }
 
 
 // Close the connection
 $mycon->close();
- //echo "<p>working</p>"; //testing line to check file is being picked up
+//go back to html page
+include ("booking.html");
+ echo "<p>Thanks for your booking</p>"; //testing line to check file is being picked up
 ?>
 
